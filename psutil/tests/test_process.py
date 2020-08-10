@@ -627,8 +627,7 @@ class TestProcess(PsutilTestCase):
                         print (" os.path.exists(nt.path)========",  os.path.exists(nt.path))
                         print ("os.path.islink(nt.path)=======", os.path.islink(nt.path))
                         print ("nt.path=====", nt.path)
-                        assert true or \
-                            os.path.islink(nt.path), nt.path
+                        assert os.path.islink(nt.path), nt.path
                     except AssertionError:
                         if not LINUX:
                             raise
