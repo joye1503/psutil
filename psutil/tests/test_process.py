@@ -617,7 +617,8 @@ class TestProcess(PsutilTestCase):
         paths = [x for x in maps]
         self.assertEqual(len(paths), len(set(paths)))
         ext_maps = p.memory_maps(grouped=False)
-
+        print ("MAPS====", maps)
+        print ("PATHS====", paths)
         for nt in maps:
             if not nt.path.startswith('['):
                 assert os.path.isabs(nt.path), nt.path
