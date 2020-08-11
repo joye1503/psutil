@@ -1134,9 +1134,10 @@ class Process(object):
             entity and the namedtuple will also include the mapped region's
             address space ('addr') and permission set ('perms').
             """
-            print ("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             it = self._proc.memory_maps()
+            print ("ITTTTT======", it)
             if grouped:
+                print ("IIIIFFFFFFFFFFFFF")
                 d = {}
                 for tupl in it:
                     path = tupl[2]
@@ -1148,6 +1149,7 @@ class Process(object):
                 nt = _psplatform.pmmap_grouped
                 return [nt(path, *d[path]) for path in d]  # NOQA
             else:
+                print ("ELSEEEEEEEEEEEEEEEEEEEEE")
                 nt = _psplatform.pmmap_ext
                 return [nt(*x) for x in it]
 
