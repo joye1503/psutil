@@ -621,7 +621,8 @@ class TestProcess(PsutilTestCase):
         print ("PATHS====", paths)
         for nt in maps:
             if not nt.path.startswith('['):
-                assert os.path.isabs(nt.path), nt.path
+                assert os.path.exists(nt.path) or \
+                    os.path.isabs(nt.path), nt.path
                 if POSIX:
                     try:
                         print (" os.path.exists(nt.path)========",  os.path.exists(nt.path))
@@ -664,6 +665,7 @@ class TestProcess(PsutilTestCase):
         # Make sure a newly loaded shared lib is listed.
         p = psutil.Process()
         with copyload_shared_lib() as path:
+            print ("@@@@@@@@@@@@@@@@@@@@@@")
             def normpath(p):
                 return os.path.realpath(os.path.normcase(p))
             libpaths = [normpath(x.path)
