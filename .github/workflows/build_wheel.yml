@@ -53,19 +53,31 @@ jobs:
               bash -c "set -xe;
               /opt/python/${{ matrix.PYTHON }}/bin/pip install virtualenv;
               /opt/python/${{ matrix.PYTHON }}/bin/python -m virtualenv .venv;
-              .venv/bin/pip install setuptools wheel cffi six;
-              .venv/bin/pip install -U pip==18.0.0; # downgrade pip for reasons we can't remember but are definitely needed
-              REGEX='cp3([0-9])*';
-              if [[ ${{ matrix.PYTHON }} =~ $REGEX ]]; then
-                  PY_LIMITED_API=\"--build-option --py-limited-api=cp3${BASH_REMATCH[1]}\";
-              fi;
-              .venv/bin/pip wheel psutil --no-binary psutil --no-deps --wheel-dir=tmpwheelhouse $PY_LIMITED_API;
-              auditwheel repair tmpwheelhouse/psutil*.whl -w wheelhouse/;
               .venv/bin/pip install -U pip; # upgrade so it knows how to install a manylinux2014 wheel, sigh
               .venv/bin/pip install psutil --no-index -f wheelhouse/;
-     - run: mkdir psutil-wheelhouse
-     - run: sudo mv wheelhouse/psutil*.whl psutil-wheelhouse/
-     - uses: actions/upload-artifact@v1
-       with:
-          name: "psutil-${{ github.event.client_payload.BUILD_VERSION }}-manylinux2014-aarch64-${{ matrix.PYTHON }}"
-          path: psutil-wheelhouse/
+     env:
+      CIBW_TEST_COMMAND: python -u -Wa {project}/psutil/tests/runner.py
+      CIBW_TEST_COMMAND_MACOS: LC_ALL='en_US.utf8' python -Wa {project}/psutil/tests/runner.py
+      CIBW_TEST_EXTRAS: test
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      name: Install Python 3.7
+      with:
+        python-version: '3.7'
+
+    - name: Install Visual C++ for Python 2.7
+      if: startsWith(matrix.os, 'windows')
+      run: |
+        choco install vcpython27 -f -y
+    - name: Install cibuildwheel
+      run: pip install cibuildwheel==1.4.1
+
+    - name: Build wheels
+      run: cibuildwheel .
+
+    - name: Upload wheels
+      uses: actions/upload-artifact@v1
+      with:
+        name: wheels
+        path: wheelhouse
