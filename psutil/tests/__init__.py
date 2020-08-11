@@ -1571,24 +1571,24 @@ if POSIX:
         exe = 'pypy' if PYPY else 'python'
         ext = ".so"
         dst = get_testfn(suffix=suffix + ext)
-        print ("BBBBBBBBBBBBBBBBBBBB")
+        #print ("BBBBBBBBBBBBBBBBBBBB")
         libs = [x.path for x in psutil.Process().memory_maps() if
                 os.path.splitext(x.path)[1] == ext and
                 exe in x.path.lower()]
         print ("bbbbbbbbbbbbbbbbbbbbbbb")
-        print ("LIBS =====", libs)
+        #print ("LIBS =====", libs)
         src = random.choice(libs)
-        print ("+++++++++++++++++++++++++++++")
+        #print ("+++++++++++++++++++++++++++++")
         print ("SRC =====", src)
-        print ("DST =====", dst)
+        #print ("DST =====", dst)
         shutil.copyfile(src, dst)
         print ("CCCCCCCCCCCCCCCCCCCCCCCCCCC")
         try:
-            print ("DDDDDDDDDDDDDDDD")
+            #print ("DDDDDDDDDDDDDDDD")
             ctypes.CDLL(dst)
             yield dst
         finally:
-            print ("EEEEEEEEEEEEEEEEEEEEEE")
+            #print ("EEEEEEEEEEEEEEEEEEEEEE")
             safe_rmpath(dst)
 else:
     @contextlib.contextmanager
