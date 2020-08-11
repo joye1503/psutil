@@ -62,7 +62,7 @@ jobs:
               /opt/python/${{ matrix.PYTHON }}/bin/pip install virtualenv;
               /opt/python/${{ matrix.PYTHON }}/bin/python -m virtualenv .venv;
               .venv/bin/pip install -U pip; # upgrade so it knows how to install a manylinux2014 wheel, sigh
-              .venv/bin/pip install cibuildwheel==1.4.1             
+              .venv/bin/pip install cibuildwheel==1.4.1;
     - name: Build wheels
       run: cibuildwheel .
 
