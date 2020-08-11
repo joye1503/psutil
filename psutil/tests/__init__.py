@@ -1575,6 +1575,8 @@ if POSIX:
         libs = [x.path for x in psutil.Process().memory_maps() if
                 os.path.splitext(x.path)[1] == ext and
                 exe in x.path.lower()]
+        print ("bbbbbbbbbbbbbbbbbbbbbbb")
+        print ("LIBS =====", libs)
         src = random.choice(libs)
         shutil.copyfile(src, dst)
         print ("CCCCCCCCCCCCCCCCCCCCCCCCCCC")
