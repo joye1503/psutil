@@ -1563,6 +1563,7 @@ def is_namedtuple(x):
 if POSIX:
     @contextlib.contextmanager
     def copyload_shared_lib(suffix=""):
+        print ("AAAAAAAAAAAAAAAAAAAA")
         """Ctx manager which picks up a random shared CO lib used
         by this process, copies it in another location and loads it
         in memory via ctypes. Return the new absolutized path.
@@ -1570,15 +1571,19 @@ if POSIX:
         exe = 'pypy' if PYPY else 'python'
         ext = ".so"
         dst = get_testfn(suffix=suffix + ext)
+        print ("BBBBBBBBBBBBBBBBBBBB")
         libs = [x.path for x in psutil.Process().memory_maps() if
                 os.path.splitext(x.path)[1] == ext and
                 exe in x.path.lower()]
         src = random.choice(libs)
         shutil.copyfile(src, dst)
+        print ("CCCCCCCCCCCCCCCCCCCCCCCCCCC")
         try:
+            print ("DDDDDDDDDDDDDDDD")
             ctypes.CDLL(dst)
             yield dst
         finally:
+            print ("EEEEEEEEEEEEEEEEEEEEEE")
             safe_rmpath(dst)
 else:
     @contextlib.contextmanager
