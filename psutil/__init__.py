@@ -1135,7 +1135,7 @@ class Process(object):
             address space ('addr') and permission set ('perms').
             """
             it = self._proc.memory_maps()
-            print ("ITTTTT======", it)
+            #print ("ITTTTT======", it)
             if grouped:
                 print ("IIIIFFFFFFFFFFFFF")
                 d = {}
@@ -1147,6 +1147,7 @@ class Process(object):
                     except KeyError:
                         d[path] = nums
                 nt = _psplatform.pmmap_grouped
+                print ("NT============", nt)
                 return [nt(path, *d[path]) for path in d]  # NOQA
             else:
                 print ("ELSEEEEEEEEEEEEEEEEEEEEE")
