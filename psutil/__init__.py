@@ -1134,6 +1134,7 @@ class Process(object):
             entity and the namedtuple will also include the mapped region's
             address space ('addr') and permission set ('perms').
             """
+            ptint ("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             it = self._proc.memory_maps()
             if grouped:
                 d = {}
