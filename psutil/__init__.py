@@ -1143,8 +1143,10 @@ class Process(object):
                     path = tupl[2]
                     nums = tupl[3:]
                     try:
+                        print ("TRYYYYYYYYYYYYYYYYYYYYYYYY")
                         d[path] = map(lambda x, y: x + y, d[path], nums)
                     except KeyError:
+                        print ("EXCEPTTTTTTTTTTTTTT")
                         d[path] = nums
                 nt = _psplatform.pmmap_grouped
                 print ("DDDDDDDDDDDD============", d)
