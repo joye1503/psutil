@@ -1147,7 +1147,7 @@ class Process(object):
                     except KeyError:
                         d[path] = nums
                 nt = _psplatform.pmmap_grouped
-                print ("NT_PATH============", nt.path)
+                print ("DDDDDDDDDDDD============", d)
                 return [nt(path, *d[path]) for path in d]  # NOQA
             else:
                 print ("ELSEEEEEEEEEEEEEEEEEEEEE")
