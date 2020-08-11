@@ -61,13 +61,16 @@ jobs:
               bash -c "set -xe;
               /opt/python/${{ matrix.PYTHON }}/bin/pip install virtualenv;
               /opt/python/${{ matrix.PYTHON }}/bin/python -m virtualenv .venv;
-              .venv/bin/pip install -U pip; # upgrade so it knows how to install a manylinux2014 wheel, sigh
-              .venv/bin/pip install cibuildwheel==1.4.1;"
-    - name: Build wheels
-      run: cibuildwheel .
+              .venv/bin/pip install -U pip;" # upgrade so it knows how to install a manylinux2014 wheel, sigh
+    
+     - name: Install cibuildwheel
+       run: pip install cibuildwheel==1.4.1
 
-    - name: Upload wheels
-      uses: actions/upload-artifact@v1
-      with:
-        name: wheels
-        path: wheelhouse
+     - name: Build wheels
+       run: cibuildwheel .
+
+     - name: Upload wheels
+       uses: actions/upload-artifact@v1
+       with:
+         name: wheels
+         path: wheelhouse
