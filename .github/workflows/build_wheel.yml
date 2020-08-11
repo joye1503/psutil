@@ -38,39 +38,39 @@ jobs:
         name: wheels
         path: wheelhouse
   manylinux-arm64:
-     name: "Python ${{ matrix.PYTHON }} for manylinux2014-aarch64"
-     runs-on: ubuntu-latest
-     strategy:
-       matrix:
-         PYTHON: ["cp35-cp35m"]
-     env:
+    name: "Python ${{ matrix.PYTHON }} for manylinux2014-aarch64"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        PYTHON: ["cp35-cp35m"]
+    env:
       CIBW_TEST_COMMAND: python -u -Wa {project}/psutil/tests/runner.py
       CIBW_TEST_COMMAND_MACOS: LC_ALL='en_US.utf8' python -Wa {project}/psutil/tests/runner.py
       CIBW_TEST_EXTRAS: test
-     steps:
-     - uses: actions/checkout@v1
-     - uses: actions/setup-python@v1
-     - name: Install Python 3.7
-       with:
-        python-version: '3.7'
-     - run: |
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+      - name: Install Python 3.7
+        with:
+         python-version: '3.7'
+      - run: |
          docker run --rm --privileged hypriot/qemu-register
-     - uses: docker://quay.io/pypa/manylinux2014_aarch64
-       with:
-        args: |
-              bash -c "set -xe;
-              /opt/python/${{ matrix.PYTHON }}/bin/pip install virtualenv;
-              /opt/python/${{ matrix.PYTHON }}/bin/python -m virtualenv .venv;
-              .venv/bin/pip install -U pip;" # upgrade so it knows how to install a manylinux2014 wheel, sigh
+      - uses: docker://quay.io/pypa/manylinux2014_aarch64
+        with:
+         args: |
+               bash -c "set -xe;
+               /opt/python/${{ matrix.PYTHON }}/bin/pip install virtualenv;
+               /opt/python/${{ matrix.PYTHON }}/bin/python -m virtualenv .venv;
+               .venv/bin/pip install -U pip;" # upgrade so it knows how to install a manylinux2014 wheel, sigh
     
-     - name: Install cibuildwheel
-       run: pip install cibuildwheel==1.4.1
+      - name: Install cibuildwheel
+        run: pip install cibuildwheel==1.4.1
 
-     - name: Build wheels
-       run: cibuildwheel .
+      - name: Build wheels
+        run: cibuildwheel .
 
-     - name: Upload wheels
-       uses: actions/upload-artifact@v1
-       with:
-         name: wheels
-         path: wheelhouse
+      - name: Upload wheels
+        uses: actions/upload-artifact@v1
+        with:
+          name: wheels
+          path: wheelhouse
