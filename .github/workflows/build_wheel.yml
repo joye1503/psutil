@@ -43,8 +43,16 @@ jobs:
      strategy:
        matrix:
          PYTHON: ["cp35-cp35m"]
+     env:
+      CIBW_TEST_COMMAND: python -u -Wa {project}/psutil/tests/runner.py
+      CIBW_TEST_COMMAND_MACOS: LC_ALL='en_US.utf8' python -Wa {project}/psutil/tests/runner.py
+      CIBW_TEST_EXTRAS: test
      steps:
-     - uses: actions/checkout@v2
+     - uses: actions/checkout@v1
+     - uses: actions/setup-python@v1
+      name: Install Python 3.7
+      with:
+        python-version: '3.7'
      - run: |
          docker run --rm --privileged hypriot/qemu-register
      - uses: docker://quay.io/pypa/manylinux2014_aarch64
@@ -55,17 +63,6 @@ jobs:
               /opt/python/${{ matrix.PYTHON }}/bin/python -m virtualenv .venv;
               .venv/bin/pip install -U pip; # upgrade so it knows how to install a manylinux2014 wheel, sigh
               .venv/bin/pip install psutil --no-index -f wheelhouse/;
-     env:
-      CIBW_TEST_COMMAND: python -u -Wa {project}/psutil/tests/runner.py
-      CIBW_TEST_COMMAND_MACOS: LC_ALL='en_US.utf8' python -Wa {project}/psutil/tests/runner.py
-      CIBW_TEST_EXTRAS: test
-    steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-python@v1
-      name: Install Python 3.7
-      with:
-        python-version: '3.7'
-
     - name: Install Visual C++ for Python 2.7
       if: startsWith(matrix.os, 'windows')
       run: |
