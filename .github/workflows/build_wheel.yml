@@ -48,11 +48,7 @@ jobs:
       CIBW_TEST_COMMAND_MACOS: LC_ALL='en_US.utf8' python -Wa {project}/psutil/tests/runner.py
       CIBW_TEST_EXTRAS: test
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-python@v1
-      - name: Install Python 3.7
-        with:
-         python-version: '3.7'
+      - uses: actions/checkout@v2
       - run: |
          docker run --rm --privileged hypriot/qemu-register
       - uses: docker://quay.io/pypa/manylinux2014_aarch64
