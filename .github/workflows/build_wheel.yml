@@ -59,11 +59,11 @@ jobs:
               if [[ ${{ matrix.PYTHON }} =~ $REGEX ]]; then
                   PY_LIMITED_API=\"--build-option --py-limited-api=cp3${BASH_REMATCH[1]}\";
               fi;
-              .venv/bin/pip wheel psutil --no-binary bcrypt --no-deps --wheel-dir=tmpwheelhouse $PY_LIMITED_API;
+              .venv/bin/pip wheel psutil --no-binary psutil --no-deps --wheel-dir=tmpwheelhouse $PY_LIMITED_API;
               auditwheel repair tmpwheelhouse/psutil*.whl -w wheelhouse/;
               .venv/bin/pip install -U pip; # upgrade so it knows how to install a manylinux2014 wheel, sigh
               .venv/bin/pip install psutil --no-index -f wheelhouse/;
-     - run: mkdir bcrypt-wheelhouse
+     - run: mkdir psutil-wheelhouse
      - run: sudo mv wheelhouse/psutil*.whl psutil-wheelhouse/
      - uses: actions/upload-artifact@v1
        with:
