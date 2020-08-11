@@ -1579,6 +1579,8 @@ if POSIX:
         print ("LIBS =====", libs)
         src = random.choice(libs)
         print ("+++++++++++++++++++++++++++++")
+        print ("SRC =====", src)
+        print ("DST =====", dst)
         shutil.copyfile(src, dst)
         print ("CCCCCCCCCCCCCCCCCCCCCCCCCCC")
         try:
