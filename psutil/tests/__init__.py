@@ -1588,24 +1588,31 @@ else:
         in memory via ctypes.
         Return the new absolutized, normcased path.
         """
+        print ("1111111111111111111111")
         from ctypes import wintypes
         from ctypes import WinError
         ext = ".dll"
         dst = get_testfn(suffix=suffix + ext)
+        print ("2222222222222222222222")
         libs = [x.path for x in psutil.Process().memory_maps() if
                 x.path.lower().endswith(ext) and
                 'python' in os.path.basename(x.path).lower() and
                 'wow64' not in x.path.lower()]
+        print ("33333333333333333333333333")
         if PYPY and not libs:
+            print ("4444444444444444444444444")
             libs = [x.path for x in psutil.Process().memory_maps() if
                     'pypy' in os.path.basename(x.path).lower()]
         src = random.choice(libs)
+        print ("555555555555555555555")
         shutil.copyfile(src, dst)
         cfile = None
         try:
+            print ("666666666666666666666666")
             cfile = ctypes.WinDLL(dst)
             yield dst
         finally:
+            print ("777777777777777777")
             # Work around OverflowError:
             # - https://ci.appveyor.com/project/giampaolo/psutil/build/1207/
             #       job/o53330pbnri9bcw7
